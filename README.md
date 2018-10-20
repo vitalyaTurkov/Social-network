@@ -1,5 +1,5 @@
 # Social-network
-Реализована авторизация и регистрация.
-# Запуск:
+Implemented registration and authorization.
+# Launch the application
 1. npm i
 2. npm start
