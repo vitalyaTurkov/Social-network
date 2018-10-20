@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +16,13 @@ import { INCORRECT_EMAIL, USED_EMAIL, EMPTY_FIELDS, OK, DEFAULT } from "./consta
 import { styles } from './style';
 
 class Registration extends React.Component {
+
+    propTypes = {
+        classes: PropTypes.objectOf(PropTypes.object),
+        status: PropTypes.string,
+        isAuthorized: PropTypes.bool,
+        changeStatus: PropTypes.func
+    };
 
     render() {
         const { classes, status, changeStatus, isAuthorized } = this.props;

@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 
 import Authorization from '../Authorization'
 import Registration from '../Registration'
@@ -11,6 +12,19 @@ import { changeRegistrationStatus } from '../../store/redusers/registration-redu
 import { changeAuthorizationStatus } from '../../store/redusers/authorization-reducer'
 
 class Main extends React.Component {
+
+    propTypes = {
+        id: PropTypes.string,
+        email: PropTypes.string,
+        name: PropTypes.string,
+        surname: PropTypes.string,
+        isAuthorized: PropTypes.bool,
+        authorizationStatus: PropTypes.string,
+        registrationStatus: PropTypes.string,
+        changeAuthorizationStatus: PropTypes.func,
+        changeRegistrationStatus: PropTypes.func,
+        changeUser: PropTypes.func
+    };
 
     render() {
         const {name, surname, email,

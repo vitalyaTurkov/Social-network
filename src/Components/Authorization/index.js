@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -15,8 +16,15 @@ import {INCORRECT_DATA, DEFAULT} from "./constants";
 
 class Authorization extends React.Component
 {
+    propTypes = {
+        changeAuthorizationStatus: PropTypes.func,
+        isAuthorized: PropTypes.bool,
+        classes: PropTypes.objectOf(PropTypes.object),
+        authorizationStatus: PropTypes.string,
+        changeUser: PropTypes.string
+    };
+
     componentWillUpdate() {
-        console.log(this.props);
         if(this.props.isAuthorized === false) {
             this.props.changeAuthorizationStatus(INCORRECT_DATA);
         }
