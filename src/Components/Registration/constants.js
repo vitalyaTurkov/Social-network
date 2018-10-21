@@ -3,3 +3,4 @@ export const USED_EMAIL = "USED_EMAIL";
 export const EMPTY_FIELDS = "EMPTY_FIELDS";
 export const OK = "OK";
 export const DEFAULT = "DEFAULT";
+export const ACCEPTED = "ACCEPTED";

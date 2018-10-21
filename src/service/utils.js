@@ -26,7 +26,6 @@ export const registration = (name, surname, email, password, callback) => {
     }
 
     hasUser(email, (user) => {
-        console.log(user.email);
         if(user.email === '') {
             const user = {name, surname, email, password};
             addUser(user);

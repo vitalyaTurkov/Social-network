@@ -10,7 +10,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
 
 import { registration } from "../../service/utils";
-import { INCORRECT_EMAIL, USED_EMAIL, EMPTY_FIELDS, OK, DEFAULT } from "./constants";
+import { INCORRECT_EMAIL, USED_EMAIL, EMPTY_FIELDS, OK, DEFAULT, ACCEPTED } from "./constants";
+import Alert from '../Alert'
 
 import { styles } from './style';
 
@@ -31,6 +32,8 @@ class Registration extends React.Component {
     mountEmailInput = emailInput => this.emailInput = emailInput;
     handleKeyPress = (e) => e.key === 'Enter' && this.handleClick();
 
+    acceptAlert = () => this.setState({status: ACCEPTED});
+
     handleClick = () => {
         registration(
             this.nameInput.value,
@@ -50,8 +53,12 @@ class Registration extends React.Component {
             return <Redirect to={'/'}/>
         }
 
-        if(status === OK) {
+        if(status === ACCEPTED) {
             return <Redirect to={'/authorization'}/>
+        }
+
+        if(status === OK) {
+            return <Alert text={"Вы успешно авторизировались"} accept={this.acceptAlert}/>
         }
 
         if(status === INCORRECT_EMAIL) {
@@ -79,7 +86,6 @@ class Registration extends React.Component {
                         <div>
                             {warning}
                             <TextField
-                                id="standard-name"
                                 label="Name"
                                 margin="normal"
                                 inputRef={this.mountNameInput}
@@ -87,7 +93,6 @@ class Registration extends React.Component {
                         </div>
                         <div>
                             <TextField
-                                id="standard-name"
                                 label="Surname"
                                 margin="normal"
                                 inputRef={this.mountSurnameInput}
@@ -95,16 +100,16 @@ class Registration extends React.Component {
                         </div>
                         <div>
                             <TextField
-                                id="standard-name"
                                 label="Password"
                                 margin="normal"
+                                type="password"
                                 inputRef={this.mountPasswordInput}
                             />
                         </div>
                         <div>
                             <TextField
-                                id="standard-name"
                                 label="Email"
+                                type="email"
                                 margin="normal"
                                 inputRef={this.mountEmailInput}
                             />
