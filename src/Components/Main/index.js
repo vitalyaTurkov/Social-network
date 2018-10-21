@@ -10,10 +10,11 @@ import Application from '../Application'
 import { changeUser } from '../../store/redusers/user-reduser'
 import { changeRegistrationStatus } from '../../store/redusers/registration-reducer'
 import { changeAuthorizationStatus } from '../../store/redusers/authorization-reducer'
+import { openMenuAction } from '../../store/redusers/main-reducer'
 
 class Main extends React.Component {
 
-    propTypes = {
+    static propTypes = {
         id: PropTypes.string,
         email: PropTypes.string,
         name: PropTypes.string,
@@ -28,7 +29,8 @@ class Main extends React.Component {
 
     render() {
         const {name, surname, email,
-            id, isAuthorized, authorizationStatus, registrationStatus} = this.props;
+            id, isAuthorized, authorizationStatus, registrationStatus,
+            menuIsOpened, openMenuAction} = this.props;
 
         return (
             <Switch>
@@ -59,6 +61,8 @@ class Main extends React.Component {
                                surname={surname}
                                email={email}
                                id={id}
+                               menuIsOpened={menuIsOpened}
+                               openMenuAction={openMenuAction}
                            />
                        )}
                 />
@@ -76,20 +80,22 @@ class Main extends React.Component {
 
 const mapStateToProps = state => {
     return {
-            id: state.userReducer.id,
-            email: state.userReducer.email,
-            name: state.userReducer.name,
-            surname: state.userReducer.surname,
-            isAuthorized: state.userReducer.isAuthorized,
-            registrationStatus: state.registrationReducer.status,
-            authorizationStatus: state.authorizationReducer.status
-        }
+        id: state.userReducer.id,
+        email: state.userReducer.email,
+        name: state.userReducer.name,
+        surname: state.userReducer.surname,
+        isAuthorized: state.userReducer.isAuthorized,
+        registrationStatus: state.registrationReducer.status,
+        authorizationStatus: state.authorizationReducer.status,
+        menuIsOpened: state.mainReducer.menuIsOpened
+    }
 };
 
 const mapActionsToProps = dispatch => ({
     changeUser: bindActionCreators(changeUser, dispatch),
     changeRegistrationStatus: bindActionCreators(changeRegistrationStatus, dispatch),
-    changeAuthorizationStatus: bindActionCreators(changeAuthorizationStatus, dispatch)
+    changeAuthorizationStatus: bindActionCreators(changeAuthorizationStatus, dispatch),
+    openMenuAction: bindActionCreators(openMenuAction, dispatch)
 });
 
 export default withRouter(connect(mapStateToProps, mapActionsToProps)(Main))

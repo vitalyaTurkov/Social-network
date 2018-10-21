@@ -16,12 +16,12 @@ import {INCORRECT_DATA, DEFAULT} from "./constants";
 
 class Authorization extends React.Component
 {
-    propTypes = {
+    static propTypes = {
         changeAuthorizationStatus: PropTypes.func,
         isAuthorized: PropTypes.bool,
-        classes: PropTypes.objectOf(PropTypes.object),
+        classes: PropTypes.object,
         authorizationStatus: PropTypes.string,
-        changeUser: PropTypes.string
+        changeUser: PropTypes.func
     };
 
     componentWillUpdate() {

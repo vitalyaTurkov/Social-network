@@ -17,8 +17,8 @@ import { styles } from './style';
 
 class Registration extends React.Component {
 
-    propTypes = {
-        classes: PropTypes.objectOf(PropTypes.object),
+    static propTypes = {
+        classes: PropTypes.object,
         status: PropTypes.string,
         isAuthorized: PropTypes.bool,
         changeStatus: PropTypes.func
