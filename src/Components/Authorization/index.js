@@ -63,6 +63,9 @@ class Authorization extends React.Component
                         <div>
                             <TextField
                                 label="Email"
+                                type="email"
+                                name="email"
+                                autoComplete="email"
                                 className={classes.textField}
                                 margin="normal"
                                 inputRef={this.mountEmailInput}
@@ -71,6 +74,7 @@ class Authorization extends React.Component
                         <div>
                             <TextField
                                 label="Password"
+                                type="password"
                                 className={classes.textField}
                                 margin="normal"
                                 inputRef={this.mountPasswordInput}

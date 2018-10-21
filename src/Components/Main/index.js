@@ -21,12 +21,8 @@ class Main extends React.Component {
         changeUser: PropTypes.func
     };
 
-    changeUser = (user) => {
-        this.props.changeUser(user);
-    };
-
     render() {
-        const {name, surname, email,
+        const {name, surname, email, changeUser,
             id, isAuthorized, menuIsOpened, openMenuAction} = this.props;
 
         return (
@@ -35,7 +31,7 @@ class Main extends React.Component {
                        render={() => (
                            <Authorization
                                isAuthorized={isAuthorized}
-                               changeUser={this.changeUser}
+                               changeUser={changeUser}
                            />
                        )}
                 />

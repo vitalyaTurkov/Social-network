@@ -33,7 +33,7 @@ class PrimarySearchAppBar extends React.Component {
                         <IconButton onClick={this.handleMenuClick} className={classes.menuButton} color="inherit" aria-label="Open drawer">
                             <MenuIcon />
                         </IconButton>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                        <Typography className={classes.title} variant={"h6"} color="inherit" noWrap>
                             fakebook
                         </Typography>
                         <div className={classes.search}>
