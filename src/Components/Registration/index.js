@@ -9,8 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography'
 
-import { addUser } from "../../service/api/api";
-import { hasUser, isCorrectEmail } from "../../service/utils";
+import { registration } from "../../service/utils";
 import { INCORRECT_EMAIL, USED_EMAIL, EMPTY_FIELDS, OK, DEFAULT } from "./constants";
 
 import { styles } from './style';
@@ -19,22 +18,39 @@ class Registration extends React.Component {
 
     static propTypes = {
         classes: PropTypes.object,
-        status: PropTypes.string,
         isAuthorized: PropTypes.bool,
-        changeStatus: PropTypes.func
+    };
+
+    state = {
+        status: DEFAULT
+    };
+
+    mountNameInput = nameInput => this.nameInput = nameInput;
+    mountSurnameInput = surnameInput => this.surnameInput = surnameInput;
+    mountPasswordInput = passwordInput => this.passwordInput = passwordInput;
+    mountEmailInput = emailInput => this.emailInput = emailInput;
+    handleKeyPress = (e) => e.key === 'Enter' && this.handleClick();
+
+    handleClick = () => {
+        registration(
+            this.nameInput.value,
+            this.surnameInput.value,
+            this.emailInput.value,
+            this.passwordInput.value,
+            status => this.setState({status: status})
+        );
     };
 
     render() {
-        const { classes, status, changeStatus, isAuthorized } = this.props;
+        const { classes, isAuthorized } = this.props,
+              { status } = this.state;
+        let warning = <></>;
 
         if (isAuthorized) {
             return <Redirect to={'/'}/>
         }
 
-        let warning = <></>;
-
         if(status === OK) {
-            changeStatus(DEFAULT);
             return <Redirect to={'/authorization'}/>
         }
 
@@ -58,87 +74,54 @@ class Registration extends React.Component {
                 alignItems="center"
                 className={classes.container}
             >
-                <Card className={classes.card}>
-                    <div>
-                        {warning}
-                        <TextField
-                            id="standard-name"
-                            label="Name"
-                            margin="normal"
-                            inputRef={this.mountNameInput}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            id="standard-name"
-                            label="Surname"
-                            margin="normal"
-                            inputRef={this.mountSurnameInput}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            id="standard-name"
-                            label="Password"
-                            margin="normal"
-                            inputRef={this.mountPasswordInput}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            id="standard-name"
-                            label="Email"
-                            margin="normal"
-                            inputRef={this.mountEmailInput}
-                        />
-                    </div>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="center"
-                        className={classes.btnGroup}
-                    >
-                        <Button color="primary" onClick={this.handleClick}>Регистрация</Button>
-                    </Grid>
-                </Card>
+                <form onKeyPress={this.handleKeyPress}>
+                    <Card className={classes.card}>
+                        <div>
+                            {warning}
+                            <TextField
+                                id="standard-name"
+                                label="Name"
+                                margin="normal"
+                                inputRef={this.mountNameInput}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="standard-name"
+                                label="Surname"
+                                margin="normal"
+                                inputRef={this.mountSurnameInput}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="standard-name"
+                                label="Password"
+                                margin="normal"
+                                inputRef={this.mountPasswordInput}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="standard-name"
+                                label="Email"
+                                margin="normal"
+                                inputRef={this.mountEmailInput}
+                            />
+                        </div>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            className={classes.btnGroup}
+                        >
+                            <Button color="primary" onClick={this.handleClick}>Регистрация</Button>
+                        </Grid>
+                    </Card>
+                </form>
             </Grid>
         );
-    }
-
-    mountNameInput = nameInput => this.nameInput = nameInput;
-    mountSurnameInput = surnameInput => this.surnameInput = surnameInput;
-    mountPasswordInput = passwordInput => this.passwordInput = passwordInput;
-    mountEmailInput = emailInput => this.emailInput = emailInput;
-
-    handleClick = () => {
-        if(this.emailInput.value === '' || this.nameInput.value === '' ||
-            this.passwordInput.value === '' || this.surnameInput.value === '')
-        {
-            this.props.changeStatus(EMPTY_FIELDS);
-            return;
-        }
-
-        if(!isCorrectEmail(this.emailInput.value)) {
-            this.props.changeStatus(INCORRECT_EMAIL);
-            return;
-        }
-
-        hasUser(this.emailInput.value, (user) => {
-            if(user.email === '') {
-                const user = {
-                    name: this.nameInput.value,
-                    surname: this.surnameInput.value,
-                    password: this.passwordInput.value,
-                    email: this.emailInput.value
-                };
-                addUser(user);
-                this.props.changeStatus(OK);
-            }
-            else {
-                this.props.changeStatus(USED_EMAIL);
-            }
-        });
     }
 }
 

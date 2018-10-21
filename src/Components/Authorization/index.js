@@ -24,27 +24,28 @@ class Authorization extends React.Component
         changeUser: PropTypes.func
     };
 
+    state = { status: DEFAULT };
+
     componentWillUpdate() {
-        if(this.props.isAuthorized === false) {
-            this.props.changeAuthorizationStatus(INCORRECT_DATA);
-        }
-        else {
-            this.props.changeAuthorizationStatus(DEFAULT);
-        }
+        this.state.status !== INCORRECT_DATA && this.setState({status: INCORRECT_DATA});
     }
 
-    render()
-    {
-        let warning = <></>;
+    handleKeyPress = (e) => e.key === "Enter" && this.handleAuth();
+    handleAuth = () => this.props.changeUser({email: this.emailInput.value, password: this.passwordInput.value});
+    mountEmailInput = input => this.emailInput = input;
+    mountPasswordInput = input => this.passwordInput = input;
 
-        const { classes, isAuthorized, authorizationStatus } = this.props;
+    render() {
+        let warning = <></>;
+        const { classes, isAuthorized } = this.props,
+              { status } = this.state;
 
         if(isAuthorized)
         {
             return <Redirect to={'/'}/>
         }
 
-        if(authorizationStatus === INCORRECT_DATA) {
+        if(status === INCORRECT_DATA) {
             warning = <Typography>Неправильный логин или пароль</Typography>;
         }
 
@@ -56,47 +57,42 @@ class Authorization extends React.Component
                 alignItems="center"
                 className={classes.container}
             >
-                <Card className={classes.card}>
-                    { warning }
-                    <div>
-                        <TextField
-                            label="Email"
-                            className={classes.textField}
-                            margin="normal"
-                            inputRef={this.mountEmailInput}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            label="Password"
-                            className={classes.textField}
-                            margin="normal"
-                            inputRef={this.mountPasswordInput}
-                        />
-                    </div>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="center"
-                        className={classes.btnGroup}
-                    >
-                        <Button variant="contained" onClick={this.handleAuth} color="primary">Вход</Button>
-                        <Link to={'/registration'}>
-                            <Button>Регистрация</Button>
-                        </Link>
-                    </Grid>
-                </Card>
+                <form onKeyPress={this.handleKeyPress}>
+                    <Card className={classes.card}>
+                        { warning }
+                        <div>
+                            <TextField
+                                label="Email"
+                                className={classes.textField}
+                                margin="normal"
+                                inputRef={this.mountEmailInput}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                label="Password"
+                                className={classes.textField}
+                                margin="normal"
+                                inputRef={this.mountPasswordInput}
+                            />
+                        </div>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="center"
+                            alignItems="center"
+                            className={classes.btnGroup}
+                        >
+                            <Button variant="contained" onClick={this.handleAuth} color="primary">Вход</Button>
+                            <Link to={'/registration'}>
+                                <Button>Регистрация</Button>
+                            </Link>
+                        </Grid>
+                    </Card>
+                </form>
             </Grid>
         );
     }
-
-    handleAuth = () => {
-        this.props.changeUser({email: this.emailInput.value, password: this.passwordInput.value});
-    };
-
-    mountEmailInput = input => this.emailInput = input;
-    mountPasswordInput = input => this.passwordInput = input;
 }
 
 export default withStyles(styles)(Authorization)

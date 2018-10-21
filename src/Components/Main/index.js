@@ -8,8 +8,6 @@ import Authorization from '../Authorization'
 import Registration from '../Registration'
 import Application from '../Application'
 import { changeUser } from '../../store/redusers/user-reduser'
-import { changeRegistrationStatus } from '../../store/redusers/registration-reducer'
-import { changeAuthorizationStatus } from '../../store/redusers/authorization-reducer'
 import { openMenuAction } from '../../store/redusers/main-reducer'
 
 class Main extends React.Component {
@@ -20,17 +18,16 @@ class Main extends React.Component {
         name: PropTypes.string,
         surname: PropTypes.string,
         isAuthorized: PropTypes.bool,
-        authorizationStatus: PropTypes.string,
-        registrationStatus: PropTypes.string,
-        changeAuthorizationStatus: PropTypes.func,
-        changeRegistrationStatus: PropTypes.func,
         changeUser: PropTypes.func
+    };
+
+    changeUser = (user) => {
+        this.props.changeUser(user);
     };
 
     render() {
         const {name, surname, email,
-            id, isAuthorized, authorizationStatus, registrationStatus,
-            menuIsOpened, openMenuAction} = this.props;
+            id, isAuthorized, menuIsOpened, openMenuAction} = this.props;
 
         return (
             <Switch>
@@ -39,19 +36,11 @@ class Main extends React.Component {
                            <Authorization
                                isAuthorized={isAuthorized}
                                changeUser={this.changeUser}
-                               authorizationStatus={authorizationStatus}
-                               changeAuthorizationStatus={this.props.changeAuthorizationStatus}
                            />
                        )}
                 />
                 <Route path={'/registration'}
-                       render={() => (
-                           <Registration
-                               status={registrationStatus}
-                               changeStatus={this.props.changeRegistrationStatus}
-                               isAuthorized={isAuthorized}
-                           />
-                       )}
+                       render={() => <Registration isAuthorized={isAuthorized}/>}
                 />
                 <Route path={'/'}
                        render={() => (
@@ -72,10 +61,6 @@ class Main extends React.Component {
             </Switch>
         )
     }
-
-    changeUser = (user) => {
-        this.props.changeUser(user);
-    }
 }
 
 const mapStateToProps = state => {
@@ -85,16 +70,12 @@ const mapStateToProps = state => {
         name: state.userReducer.name,
         surname: state.userReducer.surname,
         isAuthorized: state.userReducer.isAuthorized,
-        registrationStatus: state.registrationReducer.status,
-        authorizationStatus: state.authorizationReducer.status,
         menuIsOpened: state.mainReducer.menuIsOpened
     }
 };
 
 const mapActionsToProps = dispatch => ({
     changeUser: bindActionCreators(changeUser, dispatch),
-    changeRegistrationStatus: bindActionCreators(changeRegistrationStatus, dispatch),
-    changeAuthorizationStatus: bindActionCreators(changeAuthorizationStatus, dispatch),
     openMenuAction: bindActionCreators(openMenuAction, dispatch)
 });
 
