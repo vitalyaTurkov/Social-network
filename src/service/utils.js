@@ -26,7 +26,7 @@ export const registration = (name, surname, email, password, callback) => {
     }
 
     hasUser(email, (user) => {
-        if(user.email === '') {
+        if(user.email === '' && user.isAuthorized === false) {
             const user = {name, surname, email, password};
             addUser(user);
             callback(OK);

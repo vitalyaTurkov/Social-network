@@ -15,3 +15,15 @@ export function getUser(email, password, callback) {
         .then(res => callback(res.data))
         .catch(err => console.log(err));
 }
+
+export function getUsers() {
+    return new Promise(resolve => {
+        axios.get(`${URL}/users`)
+            .then(res => resolve(res.data))
+            .catch(err => console.log(err));
+    })
+}
+
+export function getUserById(id) {
+    return axios(`${URL}/user?id=${id}`);
+}
