@@ -7,14 +7,23 @@ import Dialog from '@material-ui/core/Dialog';
 
 
 class Alert extends React.Component {
+
     static propTypes = {
         text: PropTypes.string,
         alert: PropTypes.func
     };
 
-    state = {
-        open: true,
-    };
+    constructor(props) {
+        super(props);
+        window.onkeypress = this.handleKeyPress;
+        this.state = { open: true };
+    }
+
+    componentWillUnmount() {
+        window.onkeypress = undefined;
+    }
+
+    handleKeyPress = e => e.key === "Enter" && this.handleClose();
 
     handleClose = () => {
         this.setState({ open: false });
