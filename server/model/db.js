@@ -41,6 +41,15 @@ const getUser = (email, password, callback) => {
         });
 };
 
+const getUsers = () => User.find({}, {name: 1, surname: 1});
+
+const getUserById = id => {
+    return User.findOne({_id: id}, {name: 1, surname: 1});
+};
+
+
 module.exports.setUpConnection = setUpConnection;
 module.exports.addUser = addUser;
 module.exports.getUser = getUser;
+module.exports.getUsers = getUsers;
+module.exports.getUserById = getUserById;
