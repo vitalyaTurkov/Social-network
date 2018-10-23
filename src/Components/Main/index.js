@@ -22,8 +22,8 @@ class Main extends React.Component {
     };
 
     render() {
-        const {name, surname, email, changeUser,
-            id, isAuthorized, menuIsOpened, openMenuAction} = this.props;
+        const { changeUser,
+            id, isAuthorized, menuIsOpened, openMenuAction } = this.props;
 
         return (
             <Switch>
@@ -32,22 +32,21 @@ class Main extends React.Component {
                            <Authorization
                                isAuthorized={isAuthorized}
                                changeUser={changeUser}
+                               id={this.props.id}
                            />
                        )}
                 />
                 <Route path={'/registration'}
                        render={() => <Registration isAuthorized={isAuthorized}/>}
                 />
-                <Route path={'/'}
+                <Route path={'/user/:id'}
                        render={() => (
                            <Application
                                isAuthorized={isAuthorized}
-                               name={name}
-                               surname={surname}
-                               email={email}
                                id={id}
                                menuIsOpened={menuIsOpened}
                                openMenuAction={openMenuAction}
+                               changeUser={changeUser}
                            />
                        )}
                 />
@@ -62,9 +61,6 @@ class Main extends React.Component {
 const mapStateToProps = state => {
     return {
         id: state.userReducer.id,
-        email: state.userReducer.email,
-        name: state.userReducer.name,
-        surname: state.userReducer.surname,
         isAuthorized: state.userReducer.isAuthorized,
         menuIsOpened: state.mainReducer.menuIsOpened
     }

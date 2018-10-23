@@ -1,36 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography'
 
-const styles = {
-    list: {
-        width: 250,
-    },
-    fullList: {
-        width: 'auto',
-    },
-};
+import { classes } from "./classes";
 
-class SwipeableTemporaryDrawer extends React.Component {
-
+class MainMenu extends React.Component {
     toggleDrawer = (open) => () => {
         this.props.openMenuAction(open);
     };
 
     render() {
-        const { classes } = this.props;
-
-        const sideList = (
-            <div className={classes.list}>
-                <List>qwe</List>
-                <Divider />
-                <List>qwe</List>
-            </div>
-        );
-
         return (
             <SwipeableDrawer
                 open={this.props.isOpen}
@@ -43,15 +25,31 @@ class SwipeableTemporaryDrawer extends React.Component {
                     onClick={this.toggleDrawer(false)}
                     onKeyDown={this.toggleDrawer(false)}
                 >
-                    {sideList}
+                    <Typography>Hello</Typography>
+                </div>
+                <div
+                    tabIndex={1}
+                    role="button"
+                    onClick={this.toggleDrawer(false)}
+                    onKeyDown={this.toggleDrawer(false)}
+                >
+                    <Typography>Hello</Typography>
+                </div>
+                <div
+                    tabIndex={2}
+                    role="button"
+                    onClick={this.toggleDrawer(false)}
+                    onKeyDown={this.toggleDrawer(false)}
+                >
+                    <Typography>Hello</Typography>
                 </div>
             </SwipeableDrawer>
         );
     }
 }
 
-SwipeableTemporaryDrawer.propTypes = {
+MainMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SwipeableTemporaryDrawer);
+export default withStyles(classes)(MainMenu);
