@@ -17,11 +17,6 @@ import { styles } from './style';
 
 class Registration extends React.Component {
 
-    static propTypes = {
-        classes: PropTypes.object,
-        isAuthorized: PropTypes.bool,
-    };
-
     state = {
         status: DEFAULT
     };
@@ -31,7 +26,6 @@ class Registration extends React.Component {
     mountPasswordInput = passwordInput => this.passwordInput = passwordInput;
     mountEmailInput = emailInput => this.emailInput = emailInput;
     handleKeyPress = (e) => e.key === 'Enter' && this.handleClick();
-
     acceptAlert = () => this.setState({status: ACCEPTED});
 
     handleClick = () => {
@@ -129,5 +123,11 @@ class Registration extends React.Component {
         );
     }
 }
+
+Registration.propTypes = {
+    classes: PropTypes.object,
+    isAuthorized: PropTypes.bool,
+};
+
 
 export default withStyles(styles)(Registration)
