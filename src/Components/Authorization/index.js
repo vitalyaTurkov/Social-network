@@ -31,8 +31,11 @@ class Authorization extends React.Component
     }
 
     handleKeyPress = (e) => e.key === "Enter" && this.handleAuth();
+
     handleAuth = () => this.props.changeUser({email: this.emailInput.value, password: this.passwordInput.value});
+
     mountEmailInput = input => this.emailInput = input;
+
     mountPasswordInput = input => this.passwordInput = input;
 
     render() {
@@ -40,9 +43,15 @@ class Authorization extends React.Component
         const { classes, isAuthorized } = this.props,
               { status } = this.state;
 
-        if(isAuthorized)
-        {
-            return <Redirect to={'/'}/>
+        if(isAuthorized) {
+            localStorage.setItem(
+                'user',
+                JSON.stringify({
+                    id: this.props.id,
+                    isAuthorized: true
+                }));
+
+            return <Redirect to={`/user/${this.props.id}`}/>
         }
 
         if(status === INCORRECT_DATA) {

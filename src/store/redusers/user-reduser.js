@@ -1,12 +1,24 @@
 import {CHANGE_USER_ACTION} from "./constants";
 import { getUser } from '../../service/api/api'
 
-const initialState = {
-    id: '',
-    name: '',
-    surname: '',
-    email: '',
-    isAuthorized: false
+const getInitialState = () => {
+    const defaultInitialState = {
+        id: '',
+        isAuthorized: false
+    };
+
+    let initialState;
+
+    try {
+        initialState = JSON.parse(localStorage.getItem('user'));
+        if(initialState) {
+            return initialState;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    return defaultInitialState;
 };
 
 export const changeUser = (user) => {
@@ -16,9 +28,6 @@ export const changeUser = (user) => {
                 type: CHANGE_USER_ACTION,
                 payload: {
                     id: user.id,
-                    name: user.name,
-                    surname: user.surname,
-                    email: user.email,
                     isAuthorized: user.isAuthorized
                 }
             })
@@ -26,7 +35,7 @@ export const changeUser = (user) => {
     };
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = getInitialState(), action) => {
     switch (action.type) {
         case CHANGE_USER_ACTION:
             return action.payload;
