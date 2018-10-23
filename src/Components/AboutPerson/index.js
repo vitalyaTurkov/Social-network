@@ -1,11 +1,16 @@
 import React from 'react'
 
-class Index extends React.Component {
+import Card from '@material-ui/core/Card'
+import Typography from '@material-ui/core/Typography'
+
+class AboutPerson extends React.Component {
     render() {
         return (
-            <div>{this.props.name} {this.props.surname}</div>
+            <Card style={{marginLeft: "20px"}}>
+                <Typography style={{padding: "20px"}}>{this.props.name} {this.props.surname}</Typography>
+            </Card>
         )
     }
 }
 
-export default Index
+export default AboutPerson
