@@ -11,8 +11,9 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import { styles } from './style'
+import * as ls from '../../service/local-storage'
 
-import {INCORRECT_DATA, DEFAULT} from "./constants";
+import {INCORRECT_DATA, DEFAULT, OK} from "./constants";
 
 class Authorization extends React.Component
 {
@@ -27,12 +28,19 @@ class Authorization extends React.Component
     state = { status: DEFAULT };
 
     componentWillUpdate() {
-        this.state.status !== INCORRECT_DATA && this.setState({status: INCORRECT_DATA});
+        if(this.state.status !== OK && this.state.status !== INCORRECT_DATA) {
+            this.setState({status: INCORRECT_DATA});
+        }
     }
 
     handleKeyPress = (e) => e.key === "Enter" && this.handleAuth();
 
-    handleAuth = () => this.props.changeUser({email: this.emailInput.value, password: this.passwordInput.value});
+    handleAuth = () => {
+        this.props.changeUser({email: this.emailInput.value, password: this.passwordInput.value}, (user) => {
+            user.isAuthorized === true && this.setState({status: OK});
+            ls.save('user', user);
+        });
+    };
 
     mountEmailInput = input => this.emailInput = input;
 
@@ -40,18 +48,22 @@ class Authorization extends React.Component
 
     render() {
         let warning = <></>;
-        const { classes, isAuthorized } = this.props,
+        const { classes, isAuthorized, id } = this.props,
               { status } = this.state;
 
-        if(isAuthorized) {
+        if(status === OK) {
             localStorage.setItem(
                 'user',
                 JSON.stringify({
-                    id: this.props.id,
+                    id: id,
                     isAuthorized: true
                 }));
 
-            return <Redirect to={`/user/${this.props.id}`}/>
+            return <Redirect to={`/user/${id}`}/>
+        }
+
+        if(isAuthorized && status === DEFAULT) {
+            return <Redirect to={`/user/${id}`}/>
         }
 
         if(status === INCORRECT_DATA) {

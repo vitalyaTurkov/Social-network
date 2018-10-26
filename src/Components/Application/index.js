@@ -56,7 +56,7 @@ class Application extends React.Component {
     render() {
         const {classes, menuIsOpened, openMenuAction} = this.props;
 
-        if (!this.props.isAuthorized) return <Redirect to={'/authorization'}/>;
+        if (!this.props.isAuthorized) return <Redirect to={'/'}/>;
 
         return (
             <div>

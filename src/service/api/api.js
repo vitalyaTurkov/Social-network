@@ -3,7 +3,6 @@ import { URL } from '../../etc/url'
 
 export function addUser(name, surname, email, password) {
     axios.post(`${URL}/new-user`, {name, surname, email, password})
-        .then(response => console.log(response))
         .catch(function (error) {
             console.log(error);
         });
@@ -21,7 +20,7 @@ export function getUsers() {
         axios.get(`${URL}/users`)
             .then(res => resolve(res.data))
             .catch(err => console.log(err));
-    })
+    });
 }
 
 export function getUserById(id) {

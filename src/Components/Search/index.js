@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import { getUsers } from '../../service/api/api'
-import { stylesSearch } from './styles'
+import { styles } from './styles'
 import { Link } from 'react-router-dom'
 
 class Search extends React.Component {
@@ -155,4 +155,4 @@ Search.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(stylesSearch)(Search);
+    export default withStyles(styles)(Search);

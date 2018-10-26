@@ -44,11 +44,11 @@ class Registration extends React.Component {
         let warning = <></>;
 
         if (isAuthorized) {
-            return <Redirect to={'/'}/>
+            return <Redirect to={`/user/${this.props.id}`}/>
         }
 
         if(status === ACCEPTED) {
-            return <Redirect to={'/authorization'}/>
+            return <Redirect to={'/'}/>
         }
 
         if(status === OK) {

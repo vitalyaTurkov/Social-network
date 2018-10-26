@@ -27,7 +27,7 @@ class Main extends React.Component {
 
         return (
             <Switch>
-                <Route exact path={'/authorization'}
+                <Route exact path={'/'}
                        render={() => (
                            <Authorization
                                isAuthorized={isAuthorized}
@@ -37,7 +37,7 @@ class Main extends React.Component {
                        )}
                 />
                 <Route path={'/registration'}
-                       render={() => <Registration isAuthorized={isAuthorized}/>}
+                       render={() => <Registration id={id} isAuthorized={isAuthorized}/>}
                 />
                 <Route path={'/user/:id'}
                        render={() => (

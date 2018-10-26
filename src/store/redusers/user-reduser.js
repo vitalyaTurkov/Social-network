@@ -1,27 +1,22 @@
 import {CHANGE_USER_ACTION} from "./constants";
 import { getUser } from '../../service/api/api'
+import * as ls from '../../service/local-storage'
 
 const getInitialState = () => {
-    const defaultInitialState = {
+    let initialState = {
         id: '',
         isAuthorized: false
     };
+    const user = ls.get('user');
 
-    let initialState;
-
-    try {
-        initialState = JSON.parse(localStorage.getItem('user'));
-        if(initialState) {
-            return initialState;
-        }
-    } catch (e) {
-        console.log(e);
+    if(user) {
+        initialState = user;
     }
 
-    return defaultInitialState;
+    return initialState;
 };
 
-export const changeUser = (user) => {
+export const changeUser = (user, callback) => {
     return dispatch => {
         getUser(user.email, user.password, (user) => {
             dispatch({
@@ -30,7 +25,8 @@ export const changeUser = (user) => {
                     id: user.id,
                     isAuthorized: user.isAuthorized
                 }
-            })
+            });
+            callback(user);
         });
     };
 };
